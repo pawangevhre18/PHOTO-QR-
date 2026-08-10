@@ -39,7 +39,9 @@ function Upload() {
 
   const removePhoto = (id) => {
     setPhotos((previous) => {
-      const photoToRemove = previous.find((photo) => photo.id === id);
+      const photoToRemove = previous.find(
+        (photo) => photo.id === id
+      );
 
       if (photoToRemove?.preview) {
         URL.revokeObjectURL(photoToRemove.preview);
@@ -60,91 +62,80 @@ function Upload() {
   };
 
   const generateQR = async () => {
-  if (photos.length === 0) {
-    alert("Please select at least one photo.");
-    return;
-  }
-
-  setIsUploading(true);
-
-  try {
-    const formData = new FormData();
-
-    photos.forEach((photo) => {
-      formData.append("photos", photo.file);
-    });
-
-    const response = await fetch("http://localhost:5000/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error(`Upload failed: ${response.status}`);
+    if (photos.length === 0) {
+      alert("Please select at least one photo.");
+      return;
     }
 
-    const data = await response.json();
+    setIsUploading(true);
 
-    console.log("Backend response:", data);
+    try {
+      const formData = new FormData();
 
-    if (!data.success || !Array.isArray(data.photos)) {
-      throw new Error("Invalid response from server.");
+      photos.forEach((photo) => {
+        formData.append("photos", photo.file);
+      });
+
+      // Render deployed backend
+      const response = await fetch(
+        "https://photo-qr-f087.onrender.com/api/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Upload failed: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      console.log("Backend response:", data);
+
+      if (!data.success || !Array.isArray(data.photos)) {
+        throw new Error("Invalid response from server.");
+      }
+
+      console.log("Uploaded photos:", data.photos);
+      console.log("Gallery ID:", data.galleryId);
+
+      if (!data.galleryId) {
+        throw new Error("Gallery ID nahi mila.");
+      }
+
+      localStorage.setItem("galleryId", data.galleryId);
+
+      localStorage.setItem(
+        "uploadedPhotos",
+        JSON.stringify(data.photos)
+      );
+
+      console.log(
+        "Gallery successfully created:",
+        data.galleryId
+      );
+
+      navigate("/result");
+    } catch (error) {
+      console.error("Upload error:", error);
+
+      alert(
+        "Photos upload nahi ho payi.\n\n" +
+          error.message
+      );
+    } finally {
+      setIsUploading(false);
     }
-
-   console.log("Uploaded photos:", data.photos);
-console.log("Gallery ID:", data.galleryId);
-
-if (!data.galleryId) {
-  throw new Error("Gallery ID nahi mila.");
-}
-
-localStorage.setItem("galleryId", data.galleryId);
-
-localStorage.setItem(
-  "uploadedPhotos",
-  JSON.stringify(data.photos)
-);
-
-console.log(
-  "Gallery successfully created:",
-  data.galleryId
-);
-
-navigate("/result");
-    // Verify immediately
-    console.log(
-  "Gallery successfully created:",
-  data.galleryId
-);
-
-navigate("/result");
-
-    navigate("/result");
-  } catch (error) {
-    console.error("Upload error:", error);
-
-    alert(
-      "Photos upload nahi ho payi.\n\n" +
-        error.message
-    );
-  } finally {
-    setIsUploading(false);
-  }
-};
+  };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-[#070b18] text-white">
       {/* Navbar */}
-      <nav className="border-b border-white/10 bg-slate-950/90 backdrop-blur-md">
+      <nav className="border-b border-white/10">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-600">
-              <QrCode size={23} />
-            </div>
-
-            <span className="text-xl font-bold">
-              Photo<span className="text-purple-400">QR</span>
-            </span>
+          <Link to="/" className="text-xl font-bold">
+            Photo<span className="text-purple-400">QR</span>
           </Link>
 
           <Link
@@ -218,7 +209,10 @@ navigate("/result");
 
                 <p className="mt-1 text-sm text-slate-500">
                   {photos.length}{" "}
-                  {photos.length === 1 ? "photo" : "photos"} selected
+                  {photos.length === 1
+                    ? "photo"
+                    : "photos"}{" "}
+                  selected
                 </p>
               </div>
 

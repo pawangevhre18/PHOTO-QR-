@@ -1,10 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import {
-  ArrowLeft, 
-  
+  ArrowLeft,
   Download,
   Image as ImageIcon,
-  QrCode,
   Share2,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -15,49 +13,57 @@ function PhotoView() {
   const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
-  const loadGallery = async () => {
-    try {
-      const galleryId = window.location.pathname.split("/").pop();
+    const loadGallery = async () => {
+      try {
+        const galleryId =
+          window.location.pathname.split("/").pop();
 
-      console.log("Gallery ID:", galleryId);
+        console.log("Gallery ID:", galleryId);
 
-      if (!galleryId || galleryId === "demo") {
-        console.error("Invalid gallery ID");
-        setPhotos([]);
-        return;
-      }
+        if (!galleryId || galleryId === "demo") {
+          console.error("Invalid gallery ID");
+          setPhotos([]);
+          return;
+        }
 
-      const response = await fetch(
-        `http://192.168.29.132:5000/api/gallery/${galleryId}`
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          `Gallery fetch failed: ${response.status}`
+        // Render deployed backend
+        const response = await fetch(
+          `https://photo-qr-f087.onrender.com/api/gallery/${galleryId}`
         );
-      }
 
-      const data = await response.json();
+        if (!response.ok) {
+          throw new Error(
+            `Gallery fetch failed: ${response.status}`
+          );
+        }
 
-      console.log("Gallery API response:", data);
+        const data = await response.json();
 
-      if (data.success && Array.isArray(data.photos)) {
-        setPhotos(data.photos);
-      } else {
+        console.log("Gallery API response:", data);
+
+        if (
+          data.success &&
+          Array.isArray(data.photos)
+        ) {
+          setPhotos(data.photos);
+        } else {
+          setPhotos([]);
+        }
+      } catch (error) {
+        console.error("PhotoView error:", error);
         setPhotos([]);
       }
-    } catch (error) {
-      console.error("PhotoView error:", error);
-      setPhotos([]);
-    }
-  };
+    };
 
-  loadGallery();
-}, []);
+    loadGallery();
+  }, []);
 
   const shareGallery = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(
+        window.location.href
+      );
+
       alert("Gallery link copied!");
     } catch {
       alert("Unable to copy gallery link.");
@@ -77,17 +83,17 @@ function PhotoView() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-[#070b18] text-white">
       {/* Navbar */}
       <nav className="border-b border-white/10">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-600">
-              <QrCode size={22} />
-            </div>
-
-            <span className="text-xl font-bold">
-              Photo<span className="text-purple-400">QR</span>
+          <Link
+            to="/"
+            className="text-xl font-bold"
+          >
+            Photo
+            <span className="text-purple-400">
+              QR
             </span>
           </Link>
 
@@ -122,7 +128,10 @@ function PhotoView() {
 
           <p className="mt-2 text-slate-400">
             {photos.length}{" "}
-            {photos.length === 1 ? "photo" : "photos"} available
+            {photos.length === 1
+              ? "photo"
+              : "photos"}{" "}
+            available
           </p>
         </div>
 
@@ -138,7 +147,10 @@ function PhotoView() {
                 <div className="relative aspect-square overflow-hidden bg-slate-900">
                   <img
                     src={photo.url}
-                    alt={photo.name || `Photo ${index + 1}`}
+                    alt={
+                      photo.name ||
+                      `Photo ${index + 1}`
+                    }
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                     onError={() => {
                       console.error(
@@ -153,7 +165,9 @@ function PhotoView() {
                   </div>
 
                   <button
-                    onClick={() => downloadPhoto(photo)}
+                    onClick={() =>
+                      downloadPhoto(photo)
+                    }
                     className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-xl bg-black/70 opacity-0 backdrop-blur transition group-hover:opacity-100 hover:bg-purple-600"
                     title="Download"
                   >
