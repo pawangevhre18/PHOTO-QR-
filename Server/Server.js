@@ -7,7 +7,11 @@ const crypto = require("crypto");
 
 const app = express();
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
+
+// Render deploy hone ke baad yaha public backend URL aayega
+const BASE_URL =
+  process.env.PUBLIC_URL || `http://localhost:${PORT}`;
 
 app.use(cors());
 app.use(express.json());
@@ -15,16 +19,19 @@ app.use(express.json());
 const uploadsPath = path.join(__dirname, "uploads");
 const galleriesPath = path.join(__dirname, "galleries");
 
+// Create folders if they don't exist
 if (!fs.existsSync(uploadsPath)) {
-  fs.mkdirSync(uploadsPath);
+  fs.mkdirSync(uploadsPath, { recursive: true });
 }
 
 if (!fs.existsSync(galleriesPath)) {
-  fs.mkdirSync(galleriesPath);
+  fs.mkdirSync(galleriesPath, { recursive: true });
 }
 
+// Serve uploaded images
 app.use("/uploads", express.static(uploadsPath));
 
+// Multer storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, uploadsPath);
@@ -57,15 +64,14 @@ const upload = multer({
   },
 });
 
+// Home
 app.get("/", (req, res) => {
   res.json({
     message: "PhotoQR server is running 🚀",
   });
 });
 
-/*
-  Upload photos
-*/
+// Upload photos
 app.post("/api/upload", upload.array("photos", 50), (req, res) => {
   try {
     const galleryId = crypto.randomBytes(6).toString("hex");
@@ -73,7 +79,7 @@ app.post("/api/upload", upload.array("photos", 50), (req, res) => {
     const files = req.files.map((file) => ({
       name: file.originalname,
       filename: file.filename,
-      url: `http://${getLocalIP()}:${PORT}/uploads/${file.filename}`,
+      url: `${BASE_URL}/uploads/${file.filename}`,
     }));
 
     const galleryData = {
@@ -107,9 +113,7 @@ app.post("/api/upload", upload.array("photos", 50), (req, res) => {
   }
 });
 
-/*
-  Get gallery by ID
-*/
+// Get gallery by ID
 app.get("/api/gallery/:galleryId", (req, res) => {
   try {
     const { galleryId } = req.params;
@@ -145,28 +149,7 @@ app.get("/api/gallery/:galleryId", (req, res) => {
   }
 });
 
-/*
-  Find laptop's local network IP
-*/
-function getLocalIP() {
-  const interfaces = require("os").networkInterfaces();
-
-  for (const name of Object.keys(interfaces)) {
-    for (const network of interfaces[name]) {
-      if (
-        network.family === "IPv4" &&
-        !network.internal
-      ) {
-        return network.address;
-      }
-    }
-  }
-
-  return "localhost";
-}
-
+// Start server
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(
-    `PhotoQR server running on http://localhost:${PORT}`
-  );
+  console.log(`PhotoQR server running on port ${PORT}`);
 });
