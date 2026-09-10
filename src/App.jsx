@@ -1,20 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Home from "./pages/Home";
-import Upload from "./pages/Upload";
-import Result from "./pages/Result";
-import PhotoView from "./pages/PhotoView";
-
+import Home from "./Pages/Home";
+import PhotoView from "./Pages/Photoview";
+import Result from "./Pages/Result";
+import Upload from "./Pages/Upload";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/photo/:id" element={<PhotoView />} />
+        <Route path="/result" element={<Result />} />
         <Route path="/upload" element={<Upload />} />
-         <Route path="/result" element={<Result />} />
-          <Route path="/photo/:id" element={<PhotoView />} />
-
       </Routes>
     </BrowserRouter>
   );
