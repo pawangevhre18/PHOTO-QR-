@@ -8,6 +8,7 @@ import {
   ShieldCheck,
   Zap,
   ArrowRight,
+  Code2,
 } from "lucide-react";
 
 function Home() {
@@ -189,6 +190,87 @@ function Home() {
           </div>
         </section>
 
+        
+        {/* Built By Pawan */}
+
+        <section className="px-6 pb-20">
+          <div className="mx-auto max-w-5xl">
+            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 shadow-2xl shadow-purple-950/20 sm:p-10">
+              
+              {/* Background Glow */}
+              <div className="absolute -right-20 -top-20 h-48 w-48 rounded-full bg-purple-600/10 blur-3xl" />
+
+              <div className="relative flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+                
+                {/* Creator Info */}
+                <div className="max-w-2xl">
+                  <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-purple-400/20 bg-purple-500/10 px-3 py-1.5 text-xs font-medium text-purple-300">
+                    <Code2 size={14} />
+                    Built with passion
+                  </div>
+
+                  <h2 className="text-2xl font-bold sm:text-3xl">
+                    Built by{" "}
+                    <span className="text-purple-400">
+                      Pawan Gurjar
+                    </span>
+                  </h2>
+
+                  <p className="mt-2 text-sm font-medium text-slate-300">
+                    Frontend Developer & Creator of PHOTO-QR
+                  </p>
+
+                  <p className="mt-4 max-w-xl text-sm leading-6 text-slate-400 sm:text-base">
+                    I build simple and useful web experiences that make
+                    everyday tasks easier. PHOTO-QR is one of my projects,
+                    created to make photo sharing quick and effortless
+                    using QR technology.
+                  </p>
+
+                  {/* Skills */}
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {["React.js", "JavaScript", "HTML", "CSS"].map(
+                      (skill) => (
+                        <span
+                          key={skill}
+                          className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-slate-300"
+                        >
+                          {skill}
+                        </span>
+                      )
+                    )}
+                  </div>
+                </div>
+
+                {/* Links */}
+                <div className="flex shrink-0 flex-col gap-3 sm:flex-row md:flex-col">
+                  <a
+                    href="https://github.com/pawangevhre18"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-slate-300 transition hover:border-purple-400/30 hover:bg-purple-500/10 hover:text-white"
+                  >
+                   <span className="text-base"></span>
+                    GitHub
+                  </a>
+
+                  <a
+                    href="https://www.linkedin.com/in/pawan-gevhre-b70965422/"
+                    className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-slate-300 transition hover:border-purple-400/30 hover:bg-purple-500/10 hover:text-white"
+                  >
+                    <span className="text-base"></span>
+                    LinkedIn
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+
+
+
         {/* CTA */}
         <section className="px-6 pb-20">
           <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-purple-400/20 bg-purple-600/10 px-6 py-14 text-center">
@@ -215,15 +297,113 @@ function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 py-8">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 text-sm text-slate-500 sm:flex-row">
-          <p>
-            © {new Date().getFullYear()} PhotoQR. All rights reserved.
-          </p>
+      {/* Footer */}
+<footer className="border-t border-white/10 bg-slate-950">
+  <div className="mx-auto max-w-7xl px-6 py-14">
+    <div className="grid gap-10 md:grid-cols-3">
 
-          <p>Simple photo sharing with QR.</p>
+      {/* Brand */}
+      <div>
+        <Link to="/" className="flex items-center gap-2">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-600">
+            <QrCode size={22} />
+          </div>
+
+          <span className="text-xl font-bold tracking-tight">
+            Photo<span className="text-purple-400">QR</span>
+          </span>
+        </Link>
+
+        <p className="mt-4 max-w-sm text-sm leading-6 text-slate-500">
+          A simple and fast way to share multiple photos
+          with one QR code. Upload, generate and share.
+        </p>
+      </div>
+
+      {/* Quick Links */}
+      <div>
+        <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-300">
+          Quick Links
+        </h3>
+
+        <div className="mt-4 flex flex-col gap-3 text-sm">
+          <Link
+            to="/"
+            className="text-slate-500 transition hover:text-white"
+          >
+            Home
+          </Link>
+
+          <a
+            href="#how-it-works"
+            className="text-slate-500 transition hover:text-white"
+          >
+            How It Works
+          </a>
+
+          <Link
+            to="/upload"
+            className="text-slate-500 transition hover:text-white"
+          >
+            Upload Photos
+          </Link>
         </div>
-      </footer>
+      </div>
+
+      {/* Creator */}
+      <div>
+        <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-300">
+          Created By
+        </h3>
+
+        <p className="mt-4 text-lg font-semibold">
+          Pawan Gurjar
+        </p>
+
+        <p className="mt-1 text-sm text-purple-400">
+          Frontend Developer
+        </p>
+
+        <p className="mt-3 text-sm leading-6 text-slate-500">
+          Building simple and useful web experiences with
+          modern frontend technologies.
+        </p>
+
+        <div className="mt-4 flex gap-3">
+          <a
+            href="https://github.com/pawangevhre18"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-medium text-slate-400 transition hover:border-purple-400/30 hover:bg-purple-500/10 hover:text-white"
+          >
+            GitHub
+          </a>
+
+          <a
+            href="https://www.linkedin.com/in/pawan-gevhre-b70965422/"
+            className="rounded-lg border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-medium text-slate-400 transition hover:border-purple-400/30 hover:bg-purple-500/10 hover:text-white"
+          >
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
+
+    {/* Bottom */}
+    <div className="mt-12 border-t border-white/10 pt-6">
+      <div className="flex flex-col items-center justify-between gap-3 text-sm text-slate-600 sm:flex-row">
+        <p>
+          © {new Date().getFullYear()} PhotoQR. All rights reserved.
+        </p>
+
+        <p>
+          Built with <span className="text-purple-400">♥</span> by{" "}
+          <span className="text-slate-400">Pawan Gurjar</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
     </div>
   );
 }

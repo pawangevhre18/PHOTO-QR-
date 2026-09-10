@@ -273,11 +273,23 @@ function Upload() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 py-8">
-        <div className="mx-auto max-w-7xl px-6 text-center text-sm text-slate-500">
-          © {new Date().getFullYear()} PhotoQR. Simple photo sharing with QR.
-        </div>
-      </footer>
+      <footer className="border-t border-white/10 py-8 text-center">
+  <p className="text-sm text-slate-500">
+    © {new Date().getFullYear()} PhotoQR. All rights reserved.
+  </p>
+
+  <p className="mt-2 text-sm text-slate-500">
+    Built by{" "}
+    <span className="font-medium text-purple-400">
+      Pawan Gurjar
+    </span>
+    {" "}· Frontend Developer
+  </p>
+
+  <p className="mt-2 text-xs text-slate-600">
+    Simple photo sharing with QR.
+  </p>
+</footer>
     </div>
   );
 }
