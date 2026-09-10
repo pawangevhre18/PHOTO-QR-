@@ -15,7 +15,8 @@ function Result() {
     localStorage.getItem("uploadedPhotos") || "[]"
   );
 
-  const galleryUrl = `${window.location.origin}/photo/${galleryId}`;
+  // const galleryUrl = `${window.location.origin}/photo/${galleryId}`;
+  const galleryUrl = `https://photo-qr-omega.vercel.app/photo/${galleryId}`;
 
   const downloadQR = () => {
     const canvas = document.getElementById("photoqr-code");
